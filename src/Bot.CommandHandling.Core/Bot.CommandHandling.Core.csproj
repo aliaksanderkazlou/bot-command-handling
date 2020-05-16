@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Title>Command handling library for your .Net bot.</Title>
+        <Authors>aliaksanderkazlou</Authors>
+        <RepositoryUrl>https://github.com/aliaksanderkazlou/bot-command-handling</RepositoryUrl>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.0-preview.3.20215.2" />
+    </ItemGroup>
+
+</Project>
