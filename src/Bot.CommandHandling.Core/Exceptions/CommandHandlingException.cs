@@ -15,5 +15,10 @@ namespace Bot.CommandHandling.Core.Exceptions
         {
             Type = type;
         }
+
+        public CommandHandlingException(string message, CommandHandlingExceptionType type) : base(message)
+        {
+            Type = type;
+        }
     }
 }

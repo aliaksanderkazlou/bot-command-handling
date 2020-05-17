@@ -1,8 +1,8 @@
 namespace Bot.CommandHandling.Core
 {
-    public interface ICommandHandlerFactory
+    public interface ICommandHandlerFactory<T, TResult>
     {
-        ICommandHandler GetByCommand(string command);
-        IContextCommandHandler GetByContextStatus(string status);
+        ICommandHandler<T, TResult> GetByCommand(string command);
+        IContextCommandHandler<T, TResult> GetByContextStatus(string status);
     }
 }

@@ -2,8 +2,8 @@ using System.Threading.Tasks;
 
 namespace Bot.CommandHandling.Core
 {
-    public interface IContextCommandHandler : ICommandHandler
+    public interface IContextCommandHandler<T, TResult> : ICommandHandler<T, TResult>
     {
-        Task<TResult> HandleContextAsync<T, TResult>(T message);
+        Task<TResult> HandleContextAsync(T message);
     }
 }

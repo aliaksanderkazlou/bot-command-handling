@@ -10,7 +10,12 @@ namespace Bot.CommandHandling.Core.Attributes
         
         public CommandHandlerAttribute(string command, string[] statusesToHandle = null)
         {
-            Command = command ?? throw new ArgumentNullException(nameof(command));
+            if (string.IsNullOrWhiteSpace(command))
+            {
+                throw new ArgumentException("Parameter should not be null or whitespace", nameof(command));
+            }
+
+            Command = command;
             StatusesToHandle = statusesToHandle ?? new string[0];
         }
     }

@@ -6,24 +6,31 @@ using Bot.CommandHandling.Core.Exceptions;
 
 namespace Bot.CommandHandling.Core
 {
-    internal static class CommandHandlerTypeStorage
+    internal static class CommandHandlerTypeStorage<T, TResult>
     {
-        private static Dictionary<(string command, string[] statuses), Type> _dictionary;
+        private static Dictionary<(string command, string[] statuses), Type> _dictionary = new Dictionary<(string command, string[] statuses), Type>();
 
         public static void Initialize()
         {
-            var type = typeof(ICommandHandler);
+            var type = typeof(ICommandHandler<T, TResult>);
             var handlers = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(s => s.GetTypes())
-                .Where(p => type.IsAssignableFrom(p) && !p.IsInterface && p.CustomAttributes.Any())
+                .Where(p => type.IsAssignableFrom(p) && !p.IsInterface && p.GetCustomAttributes(typeof(CommandHandlerAttribute), true).Any())
                 .ToArray();
 
-            _dictionary = handlers.ToDictionary(handler =>
+            foreach (var handler in handlers)
             {
-                var attribute = handler.GetCustomAttributes(true).Single() as CommandHandlerAttribute;
+                var attribute =
+                    handler.GetCustomAttributes(typeof(CommandHandlerAttribute), true).First() as
+                        CommandHandlerAttribute;
 
-                return (attribute?.Command, attribute?.StatusesToHandle);
-            }, handler => handler);
+                if (_dictionary.Keys.SingleOrDefault(k => k.command.Equals(attribute.Command)).command != null)
+                {
+                    throw new CommandHandlingException($"Implementation of ICommandHandler {handler.FullName} duplicates the command {attribute.Command}");
+                }
+                
+                _dictionary.Add((attribute.Command, attribute.StatusesToHandle), handler);
+            }
         }
 
         public static Type GetByCommand(string command)

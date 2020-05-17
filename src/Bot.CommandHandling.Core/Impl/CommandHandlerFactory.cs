@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Bot.CommandHandling.Core.Impl
 {
-    public class CommandHandlerFactory : ICommandHandlerFactory
+    public class CommandHandlerFactory<T, TResult> : ICommandHandlerFactory<T, TResult>
     {
         private readonly IServiceProvider _serviceProvider;
         
@@ -12,15 +12,15 @@ namespace Bot.CommandHandling.Core.Impl
             _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
         }
         
-        public ICommandHandler GetByCommand(string command)
+        public ICommandHandler<T, TResult> GetByCommand(string command)
         {
-            return _serviceProvider.GetRequiredService(CommandHandlerTypeStorage.GetByCommand(command)) as ICommandHandler;
+            return _serviceProvider.GetRequiredService(CommandHandlerTypeStorage<T, TResult>.GetByCommand(command)) as ICommandHandler<T, TResult>;
         }
 
-        public IContextCommandHandler GetByContextStatus(string status)
+        public IContextCommandHandler<T, TResult> GetByContextStatus(string status)
         {
-            return _serviceProvider.GetRequiredService(CommandHandlerTypeStorage.GetByStatus(status)) as
-                IContextCommandHandler;
+            return _serviceProvider.GetRequiredService(CommandHandlerTypeStorage<T, TResult>.GetByStatus(status)) as
+                IContextCommandHandler<T, TResult>;
         }
     }
 }
