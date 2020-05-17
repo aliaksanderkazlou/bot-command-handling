@@ -6,10 +6,11 @@
         <Title>Command handling library for your .Net bot.</Title>
         <Authors>aliaksanderkazlou</Authors>
         <RepositoryUrl>https://github.com/aliaksanderkazlou/bot-command-handling</RepositoryUrl>
+        <PackageVersion>1.1.0</PackageVersion>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.0-preview.3.20215.2" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.4" />
     </ItemGroup>
 
 </Project>
